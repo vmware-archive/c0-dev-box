@@ -1,0 +1,124 @@
+{
+  "builders": [{
+    "type": "virtualbox-iso",
+    "guest_os_type": "Ubuntu_64",
+    "iso_url": "http://releases.ubuntu.com/16.10/ubuntu-16.10-server-amd64.iso",
+    "iso_checksum": "1da9ddc1d848a3f545de820ea9b4cd5a6c649b8c",
+    "iso_checksum_type": "sha1",
+
+    "guest_additions_path": "/home/vagrant/VBoxGuestAdditions.iso",
+    "guest_additions_url":"http://download.virtualbox.org/virtualbox/5.1.4/VBoxGuestAdditions_5.1.4.iso",
+    "guest_additions_sha256":"e385b698338003595f6cdeee7b631ec6713058ba1227d1f2a1da342bdf741982",
+    "virtualbox_version_file": ".vbox_version",
+
+    "headless": true,
+
+    "boot_wait": "10s",
+    "boot_command": [
+      "<esc><wait>",
+      "<esc><wait>",
+      "<enter><wait>",
+      "/install/vmlinuz<wait>",
+      " auto<wait>",
+      " console-setup/ask_detect=false<wait>",
+      " console-setup/layoutcode=us<wait>",
+      " console-setup/modelcode=pc105<wait>",
+      " debconf/frontend=noninteractive<wait>",
+      " debian-installer=en_US<wait>",
+      " fb=false<wait>",
+      " initrd=/install/initrd.gz<wait>",
+      " kbd-chooser/method=us<wait>",
+      " keyboard-configuration/layout=USA<wait>",
+      " keyboard-configuration/variant=USA<wait>",
+      " locale=en_US<wait>",
+      " netcfg/get_domain=vm<wait>",
+      " netcfg/get_hostname=ubuntu<wait>",
+      " noapic<wait>",
+      " nomodeset<wait>",
+      " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+      " -- <wait>",
+      "<enter><wait>"
+    ],
+
+    "http_directory": "http",
+
+    "ssh_username": "vagrant",
+    "ssh_password": "vagrant",
+    "ssh_wait_timeout": "60m",
+
+    "disk_size": 81920,
+    "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now"
+  }],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
+      "scripts": [
+        "scripts/passwordless-vagrant-sudo.sh"
+      ]
+    },
+
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
+      "inline": [
+        "apt-get update"
+      ]
+    },
+
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
+      "inline": [
+        "apt-get install -y build-essential git curl xorg openbox"
+      ]
+    },
+
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
+      "scripts": [
+        "scripts/install-golang.sh"
+      ]
+    },
+
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
+      "scripts": [
+	"scripts/install-vim-and-config.sh"
+      ]
+    },
+
+    {
+      "type": "shell",
+      "scripts": [
+	"scripts/install-tmux-conf.sh",
+        "scripts/add-vagrant-pub-key.sh"
+      ]
+    },
+
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
+      "scripts": [
+        "scripts/install-guest-additions.sh"
+      ]
+    },
+
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
+      "scripts": [
+	"scripts/clean-up.sh"
+      ]
+    }
+  ],
+
+  "post-processors": [{
+    "type": "vagrant",
+    "vagrantfile_template": "templates/vagrant-local.tpl",
+    "output": "c0-dev-{{ .Provider }}-ubuntu-yakkety.box"
+  }]
+}
