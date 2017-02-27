@@ -82,7 +82,8 @@
         "scripts/install-golang.sh",
 	"scripts/install-vim-and-config.sh",
         "scripts/install-guest-additions.sh",
-        "scripts/install-git-hooks-core.sh"
+        "scripts/install-git-hooks-core.sh",
+        "scripts/install-gitconfig"
       ]
     },
 
