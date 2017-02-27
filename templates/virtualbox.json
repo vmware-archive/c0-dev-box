@@ -79,15 +79,9 @@
       "type": "shell",
       "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
       "scripts": [
-        "scripts/install-golang.sh"
-      ]
-    },
-
-    {
-      "type": "shell",
-      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
-      "scripts": [
-	"scripts/install-vim-and-config.sh"
+        "scripts/install-golang.sh",
+	"scripts/install-vim-and-config.sh",
+        "scripts/install-guest-additions.sh"
       ]
     },
 
@@ -96,14 +90,6 @@
       "scripts": [
 	"scripts/install-tmux-conf.sh",
         "scripts/add-vagrant-pub-key.sh"
-      ]
-    },
-
-    {
-      "type": "shell",
-      "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
-      "scripts": [
-        "scripts/install-guest-additions.sh"
       ]
     },
 
