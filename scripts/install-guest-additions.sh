@@ -8,3 +8,5 @@ mount -o loop /home/vagrant/VBoxGuestAdditions.iso /media/cdrom
 # Ignore X driver failure, we don't need it
 /media/cdrom/VBoxLinuxAdditions.run || true
 umount /media/cdrom
+
+rm -f /home/vagrant/VBoxGuestAdditions.iso
