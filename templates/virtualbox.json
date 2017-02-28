@@ -80,10 +80,10 @@
       "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
       "scripts": [
         "scripts/install-golang.sh",
-	"scripts/install-vim-and-config.sh",
+        "scripts/install-vim-and-config.sh",
         "scripts/install-guest-additions.sh",
         "scripts/install-git-hooks-core.sh",
-        "scripts/install-gitconfig"
+        "scripts/install-gitconfig.sh"
       ]
     },
 
