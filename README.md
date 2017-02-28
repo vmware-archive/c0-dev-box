@@ -9,7 +9,7 @@ To create and use the VirtualBox box:
 
 ```
 packer build templates/virtualbox.json
-vagrant box add c0-dev-virtualbox-ubuntu-yakkety.box
+vagrant box add c0-dev-virtualbox-ubuntu-yakkety.box --name c0-dev
 vagrant init c0-dev
 vagrant up
 vagrant ssh
